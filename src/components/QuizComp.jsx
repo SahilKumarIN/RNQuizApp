@@ -1,14 +1,25 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import colors from '../constants/color';
-
+import Icon from 'react-native-vector-icons/Feather';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 const QuizComp = ({data}) => {
-  const {createdBy, dateCreated, question, answers} = data;
+  const {
+    createdBy,
+    dateCreated,
+    question,
+    answers,
+    correctAnswer,
+    category,
+    difficulty,
+  } = data;
+  const [selectedAns, setSelectedAnswer] = useState('');
+
   return (
     <View style={styles.quizBox}>
       <View style={styles.category}>
-        <Text style={styles.categoryTxt}>General</Text>
-        <Text style={styles.categoryTxt}>Hard</Text>
+        <Text style={styles.categoryTxt}>{category || 'General'}</Text>
+        <Text style={styles.categoryTxt}>{difficulty || 'Easy'}</Text>
       </View>
       <View style={styles.userInfo}>
         <Text style={styles.createdBy}>{createdBy}</Text>
@@ -21,8 +32,36 @@ const QuizComp = ({data}) => {
         {answers.map((answer, index) => {
           return (
             <View key={index} style={styles.answerBox}>
-              <View style={[styles.selectIcon]}></View>
-              <Text style={styles.answerTxt}>{answer}</Text>
+              <Pressable
+                style={[
+                  styles.selectIcon,
+                  selectedAns === answer
+                    ? {
+                        backgroundColor:
+                          selectedAns == correctAnswer ? 'green' : 'red',
+                        borderColor:
+                          selectedAns == correctAnswer ? 'green' : 'red',
+                      }
+                    : null,
+                ]}
+                onPress={() => {
+                  !selectedAns ? setSelectedAnswer(answer) : '';
+                }}
+              />
+
+              <Text
+                style={styles.answerTxt}
+                onPress={() => {
+                  !selectedAns ? setSelectedAnswer(answer) : '';
+                }}>
+                {answer}
+              </Text>
+              {answer === selectedAns && selectedAns === correctAnswer ? (
+                <Icon name="check" color="green" size={20} />
+              ) : null}
+              {answer === selectedAns && selectedAns !== correctAnswer ? (
+                <AntDesignIcon name="close" color="red" size={20} />
+              ) : null}
             </View>
           );
         })}
@@ -53,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     backgroundColor: '#bec1c4',
-    borderRadius: 10,
+    borderRadius: 6,
     color: '#4c4e52',
     fontWeight: '600',
     fontSize: 12,
@@ -98,6 +137,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     marginRight: 10,
+
     // backgroundColor: 'black',
   },
   answerBox: {
@@ -107,5 +147,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontWeight: '500',
     fontSize: 14,
+    marginRight: 20,
   },
 });

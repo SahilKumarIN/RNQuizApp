@@ -5,7 +5,7 @@ import AppStack from './Navigation/AppStack';
 
 const Navigation = () => {
   const {user} = useAuth();
-  return user ? <AppStack /> : <AuthStack />;
+  return user ? <AuthStack /> : <AppStack />;
 };
 
 export default Navigation;

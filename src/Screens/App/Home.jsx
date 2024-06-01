@@ -1,10 +1,16 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import colors from '../../constants/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import QuizComp from '../../components/QuizComp';
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,6 +28,9 @@ const Home = () => {
             dateCreated: '2024-05-28 18:17',
             question: 'What is your name ?',
             answers: ['Sahil', 'Pawan', 'Atul', 'Sumit'],
+            correctAnswer: 'Sahil',
+            category: 'General',
+            difficulty: 'Hard',
           }}
         />
       </View>
@@ -36,17 +45,22 @@ const Home = () => {
             data={{
               createdBy: 'Sahil Kumar',
               dateCreated: '2024-05-28 18:17',
-              question: 'What is your name ?',
-              answers: ['Sahil', 'Pawan', 'Atul', 'Sumit'],
+              question: 'Where you belong to ?',
+              answers: ['Bhagalpur', 'Bihar', 'Patna', 'None of the above'],
+              correctAnswer: 'Bhagalpur',
             }}
           />
         </View>
       </View>
 
       {/* ADD QUIZ BTN */}
-      <View style={styles.iconBG}>
+      <TouchableOpacity
+        style={styles.iconBG}
+        onPress={() => {
+          navigation.navigate('AddQuiz');
+        }}>
         <Icon name="plus" size={24} color="white" />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
