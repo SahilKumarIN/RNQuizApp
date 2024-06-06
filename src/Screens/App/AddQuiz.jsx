@@ -1,5 +1,6 @@
 import {
   Alert,
+  Dimensions,
   FlatList,
   Pressable,
   ScrollView,
@@ -168,6 +169,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     padding: 10,
     letterSpacing: 0.6,
+    borderRadius: 6,
   },
   addBtn: {
     backgroundColor: '#9fa8da',
@@ -182,21 +184,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   difficulty: {
-    backgroundColor: 'gray',
-    padding: 10,
+    flex: 1,
+    backgroundColor: '#d4cecd',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginRight: 10,
     marginTop: 10,
     borderRadius: 6,
   },
   selectedDifficulty: {
-    backgroundColor: '#80cbc4',
+    // backgroundColor: '#80cbc4',
+    backgroundColor: 'gray',
   },
   difficultyTxt: {
-    fontSize: 16,
-    color: 'black',
+    fontSize: 14,
+    color: '#403d3d',
     fontWeight: '700',
   },
   selectedDifficultyTxt: {
-    color: '#004d40',
+    // color: '#004d40',
+    color: 'black',
   },
 });

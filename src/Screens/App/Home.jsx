@@ -4,13 +4,45 @@ import {
   StyleSheet,
   Pressable,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from '../../constants/color';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import QuizComp from '../../components/QuizComp';
 
-const Home = ({navigation}) => {
+const Home = () => {
+  const dataItems = [
+    {
+      createdBy: 'Sahil Kumar',
+      dateCreated: '2024-05-28 18:17',
+      question: 'What is your name ?',
+      answers: ['Sahil', 'Pawan', 'Atul', 'Sumit'],
+      correctAnswer: 'Sahil',
+      category: 'General',
+      difficulty: 'Hard',
+    },
+    {
+      createdBy: 'Sahil Kumar',
+      dateCreated: '2024-05-28 18:17',
+      question: 'Where you belong to ?',
+      answers: ['Bhagalpur', 'Bihar', 'Patna', 'None of the above'],
+      correctAnswer: 'Bhagalpur',
+    },
+  ];
+  const [quizData, setQuizData] = useState([]);
+  async function getData() {
+    const resp = await fetch('https://the-trivia-api.com/v2/questions', {
+      method: 'GET',
+    });
+    const data = await resp.json();
+    setQuizData(data);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,53 +54,46 @@ const Home = ({navigation}) => {
       <View style={styles.quizContainer}>
         <Text style={styles.heading}>Your Polls</Text>
         {/* Here the quizzes will be shown in horizontal way. */}
-        <QuizComp
-          data={{
-            createdBy: 'Sahil Kumar',
-            dateCreated: '2024-05-28 18:17',
-            question: 'What is your name ?',
-            answers: ['Sahil', 'Pawan', 'Atul', 'Sumit'],
-            correctAnswer: 'Sahil',
-            category: 'General',
-            difficulty: 'Hard',
+        {/* <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={dataItems}
+          renderItem={({item, index}) => {
+            return <QuizComp data={item} />;
           }}
-        />
+        /> */}
       </View>
 
       {/* All Quizes created by other users except the user loggedIn */}
 
-      <View style={styles.quizContainer}>
+      <View style={[styles.quizContainer, {flex: 1}]}>
         <Text style={styles.heading}>All Quizzes</Text>
         {/* Here the quizzes will be shown vertical manner */}
-        <View>
-          <QuizComp
-            data={{
-              createdBy: 'Sahil Kumar',
-              dateCreated: '2024-05-28 18:17',
-              question: 'Where you belong to ?',
-              answers: ['Bhagalpur', 'Bihar', 'Patna', 'None of the above'],
-              correctAnswer: 'Bhagalpur',
-            }}
-          />
-        </View>
+        {/* <FlatList
+          showsVerticalScrollIndicator={false}
+          data={dataItems}
+          renderItem={({item, index}) => {
+            return <QuizComp data={item} />;
+          }}
+          contentContainerStyle={{paddingBottom: 20}}
+        /> */}
       </View>
 
       {/* ADD QUIZ BTN */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.iconBG}
         onPress={() => {
           navigation.navigate('AddQuiz');
         }}>
         <Icon name="plus" size={24} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    width: '100%',
+    flex: 1,
     backgroundColor: colors.BG_COLOR,
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -102,7 +127,6 @@ const styles = StyleSheet.create({
   },
   quizContainer: {
     marginTop: 20,
-    // padding: 10,
   },
   heading: {
     fontSize: 20,
